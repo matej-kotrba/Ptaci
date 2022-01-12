@@ -1,21 +1,13 @@
 const canvas = document.getElementById("canvas")
 const c = canvas.getContext("2d")
 
-var game = {
-    display: "menu",
-    stop: false
-}
+// MOUSE
 
 var mouse = {
     x: 0,
     y: 0,
     movex: 0,
     movey: 0
-}
-
-var playerValues = {
-    draw: false,
-    shoot: false,
 }
 
 // GAME OPTIONS 
@@ -85,9 +77,9 @@ function drawAngle(startx, x, starty, y) {
 // EVENT LISTNERENS
 
 canvas.addEventListener("mousedown", (e) => {
-    if (e.button == 0 && !playerValues.shoot) {
-        mouse.x = e.offsetX * canvas.width / canvas.clientWidth | 0
-        mouse.y = e.offsetY * canvas.height / canvas.clientHeight | 0
+    mouse.x = e.offsetX * canvas.width / canvas.clientWidth | 0
+    mouse.y = e.offsetY * canvas.height / canvas.clientHeight | 0
+    if (e.button == 0 && !playerValues.shoot && game.display == "game") {
         if (vzdalenost(playerShots[0].x, mouse.x, playerShots[0].y, mouse.y) <= playerShots[0].r) {
             playerValues.draw = true
         }
@@ -101,6 +93,15 @@ canvas.addEventListener("mouseup", (e) => {
         playerShots[0].xs = (-vzdalenostXY(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300).a / 10) * 1.5
         playerShots[0].ys = (-vzdalenostXY(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300).b / 10) * 1.5
     }
+    for (var i in buttons) {
+        if ((mouse.x > buttons[i].x - buttons[i].w / 2 && mouse.x < buttons[i].x + buttons[i].w / 2 &&
+            mouse.y > buttons[i].y && mouse.y < buttons[i].y + buttons[i].h) ||
+            (mouse.x > buttons[i].baseX - buttons[i].baseW / 2 && mouse.x < buttons[i].baseX + buttons[i].baseW / 2 &&
+                mouse.y > buttons[i].y && mouse.y < buttons[i].y + buttons[i].h)) {
+            pageSwitch(i)
+            break
+        }
+    }
 })
 
 canvas.addEventListener("mousemove", (e) => {
@@ -108,37 +109,34 @@ canvas.addEventListener("mousemove", (e) => {
     mouse.movey = e.offsetY * canvas.height / canvas.clientHeight | 0
 })
 
-addEventListener("keypress", (e) => {
-    if (e.code == "KeyR") levelRestart()
+addEventListener("keydown", (e) => {
+    if (e.code == "KeyR" && game.display == "game") setGame(game.level + 1)
+    if (e.code == "Escape") {
+        if (game.display == "game") pageSwitchDirect("pause")
+    }
 })
 
 // LEVEL SETUP
 
-function spawnObjects() {
-    objects.push(new Object(500, 400, null, "metal"))
-    objects.push(new Object(500, 700, null, "wood"))
-    //objects.push(new Object(600, -200, "I", "metal"))
+function spawnObjects(index) {
+    for (var i in levely[index - 1]["objects"]) {
+        objects.push(new Object(levely[+index - 1]["objects"][i][0], levely[+index - 1]["objects"][i][1],
+            levely[+index - 1]["objects"][i][2], levely[+index - 1]["objects"][i][3]))
+    }
 }
 
-function spawnPlayers() {
-    for (var i = 0; i < 5; i++) {
+function spawnPlayers(index) {
+    for (var i = 0; i < levely[index - 1]["players"][0]; i++) {
         playerShots.push(new Player())
     }
 }
 
-function spawnPigs() {
-    pigs.push(new Pig(800, 400))
+function spawnPigs(index) {
+    for (var i in levely[index - 1]["pigs"]) {
+        pigs.push(new Pig(levely[+index - 1]["pigs"][i][0], levely[+index - 1]["pigs"][i][1]))
+    }
 }
 
-function levelRestart() {
-    playerShots = []
-    objects = []
-    destroyAnimation = []
-    pigs = []
-    pigsKillAnimation = []
-    playerValues.draw = false
-    playerValues.shoot = false
-    spawnObjects()
-    spawnPlayers()
-    spawnPigs()
+function spawnStar(index) {
+    levelObjectives.star = new Star(levely[+index - 1]["objectives"][1][0], levely[+index - 1]["objectives"][1][1])
 }

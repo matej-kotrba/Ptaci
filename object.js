@@ -23,15 +23,24 @@ class Object {
         var lowestPoint = canvas.height - 5
         for (var i in objects) {
             if (i != objects.indexOf(this) && playerShots[0].x >= objects[i].x && playerShots[0].x <= objects[i].x + objects[i].values.w &&
-                playerShots[0].y <= objects[i].y + objects[i].values.h + playerShots[0].r) lowestPoint = objects[i].y - 5
+                playerShots[0].y <= objects[i].y /*+ objects[i].values.h + playerShots[0].r*/) lowestPoint = playerShots[0].y - playerShots[0].r - 5
         }
         if (!this.onLand && !(playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
-            playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r*2 &&
+            playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r &&
             playerShots[0].y + playerShots[0].r >= lowestPoint)) {
             this.v += this.g
             this.y += this.v
         }
-        else this.v = 0
+        else if (playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
+            playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r &&
+            playerShots[0].y + playerShots[0].r >= lowestPoint) {
+            this.y = playerShots[0].y - playerShots[0].r - this.values.h 
+            this.v = 0
+        }
+        else {
+            this.v = 0
+            
+        }
         if (playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
             playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r &&
             playerShots[0].y + playerShots[0].r >= lowestPoint) playerShots[0].ys *= 0.5
@@ -56,7 +65,7 @@ function objectCollision() {
             && playerShots[0].y <= objects[i].y + objects[i].values.h) {
             demage(objects[i], "hor")
             if (objects[i].hp > 0) {
-                playerShots[0].xs *= -1
+                playerShots[0].xs *= -0.85
                 playerShots[0].x = objects[i].x - playerShots[0].r
             }
             else {
@@ -72,7 +81,7 @@ function objectCollision() {
             && playerShots[0].y <= objects[i].y + objects[i].values.h) {
             demage(objects[i], "hor")
             if (objects[i].hp > 0) {
-                playerShots[0].xs *= -1
+                playerShots[0].xs *= -0.85
                 playerShots[0].x = objects[i].x + objects[i].values.w + playerShots[0].r
             }
             else {
@@ -108,7 +117,7 @@ function objectCollision() {
             demage(objects[i], "ver")
             if (objects[i].hp > 0) {
                 playerShots[0].ys *= -1
-                playerShots[0].ys *= 0.9
+                playerShots[0].ys *= 0.5
                 playerShots[0].y = objects[i].y - playerShots[0].r
             }
             else {
@@ -119,12 +128,12 @@ function objectCollision() {
             console.log("d")
         }
         else if (vzdalenost(objects[i].x, playerShots[0].x, objects[i].y, playerShots[0].y) <= playerShots[0].r) {
-            if (playerShots[0].y <= objects[i].y) demage(objects[i], "ver")
+            if (playerShots[0].x <= objects[i].x - playerShots[0].r) demage(objects[i], "ver")
             else demage(objects[i], "hor")
             if (objects[i].hp > 0) {
                 if (playerShots[0].xs >= 0) {
-                    playerShots[0].ys *= -1
-                    playerShots[0].xs *= -1
+                    playerShots[0].ys *= -0.5
+                    playerShots[0].xs *= -0.85
                 }
                 else {
                     playerShots[0].ys *= -1
@@ -139,12 +148,12 @@ function objectCollision() {
             console.log("e")
         }
         else if (vzdalenost(objects[i].x + objects[i].values.w, playerShots[0].x, objects[i].y, playerShots[0].y) <= playerShots[0].r) {
-            if (playerShots[0].y <= objects[i].y) demage(objects[i], "ver")
+            if (playerShots[0].x >= objects[i].x + objects[i].w + objects[i].r) demage(objects[i], "ver")
             else demage(objects[i], "hor")
             if (objects[i].hp > 0) {
                 if (playerShots[0].xs <= 0) {
-                    playerShots[0].ys *= -1
-                    playerShots[0].xs *= -1
+                    playerShots[0].ys *= -0.5
+                    playerShots[0].xs *= -0.85
                 }
                 else {
                     playerShots[0].ys *= -1
@@ -198,8 +207,8 @@ function objectEachOneBlock(i) {
     for (var k in objects) {
         if (k != i) {
             if (objects[i].x + objects[i].values.w >= objects[k].x && objects[i].x <= objects[k].x + objects[k].values.w
-                && objects[i].y + objects[i].values.h >= objects[k].y && objects[i].y <= objects[k].y + objects[k].values.h) {
-                //objects[i].y = objects[k].y - objects[i].values.h
+                && objects[i].y + objects[i].values.h >= objects[k].y && objects[i].y + objects[i].values.h/2 <= objects[k].y + objects[k].values.h) {
+                objects[i].y = objects[k].y - objects[i].values.h
                 demage(objects[i], "grav")
                 objects[i].v = 0
                 objects[i].onLand = true
@@ -218,7 +227,7 @@ function demage(object, type) {
             break
         }
         case "ver": {
-            if (Math.abs(playerShots[0].ys) >= 5) object.hp -= Math.abs(playerShots[0].ys*0.7)
+            if (Math.abs(playerShots[0].ys) >= 10) object.hp -= Math.abs(playerShots[0].ys*0.9)
             break
         }
         case "grav": {
@@ -322,6 +331,12 @@ function setTypeValuesObject(type, material) {
             values.materialStats = getObjectStats(material)
             break
         }
+        case "lay": {
+            values.w = 400
+            values.h = 50
+            values.materialStats = getObjectStats(material)
+            break
+        }
         default:
             values.w = 1200
             values.h = 200
@@ -333,7 +348,7 @@ function setTypeValuesObject(type, material) {
 function getObjectStats(material) {
     switch (material) {
         case "wood":
-            return { color: "rgb(119, 64, 33)", hp: 1 }
+            return { color: "rgb(119, 64, 33)", hp: 30 }
         case "ice":
             return { color: "rgb(53, 180, 230)", hp: 15 }
         case "metal":

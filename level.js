@@ -1,4 +1,32 @@
 
+var levelImages = {
+    star: new Image(),
+    set: () => {
+        levelImages.star.src = "./img/star.png"
+    }
+}
+
+levelImages.set()
+
+function setGame(level) {
+    // LEVEL START 
+    playerShots = []
+    objects = []
+    destroyAnimation = []
+    pigs = []
+    pigsKillAnimation = []
+    levelObjectives.star = undefined
+    playerValues.draw = false
+    playerValues.shoot = false
+    playerValues.starCollected = false
+    spawnPlayers(level)
+    spawnObjects(level)
+    spawnPigs(level)
+    spawnStar(level)
+    console.log(level)
+    game.level = level - 1
+}
+
 function drawPlayerStart() {
     c.fillStyle = "brown"
     c.fillRect(250, canvas.height - 300, 40, 300)
@@ -20,6 +48,50 @@ function drawString() {
     c.closePath()
 }
 
-var level1 = {
+class Star {
+    constructor(x,y) {
+        this.x = x
+        this.y = y
+        this.d = 75
+        this.angle = 0
+        this.destroy = false
+    }
+    render() {
+        if (this.destroy) {
+            this.d --
+            this.y += 0.5
+            this.x += 0.5
+            if (this.d <= 0) {
+                levelObjectives.star = undefined
+            }
+        }
+        this.angle += (5 * (Math.PI*2/360)) * dt
+        c.save()
+        c.translate(this.x + this.d / 2, this.y + this.d / 2)
+        c.rotate(this.angle)
+        c.drawImage(levelImages.star,-this.d/2, -this.d/2-5, this.d, this.d)
+        c.restore()
+    }
+    pick() {
+        if (playerShots[0].x + playerShots[0].r >= this.x &&
+            playerShots[0].x - playerShots[0].r <= this.x + this.d &&
+            playerShots[0].y + playerShots[0].r >= this.y &&
+            playerShots[0].y - playerShots[0].r <= this.y + this.d) {
+                playerValues.starCollected = true
+                this.destroy = true
+            }
+    }
+}
 
+function starsEarned() {
+    var starsCount = 0
+    if (playerValues.starCollected) starsCount++
+    if (pigs.length == 0) starsCount++
+    if (levely[game.level]["objectives"][0] <= playerShots.length - (playerValues.shoot == true) ? 1 : 0) starsCount++
+    if (pigs.length == 0) {
+        if (levelsStats[game.level] == 0) levelsInfo.levelsCompleted++ 
+        if (levelsStats[game.level] < starsCount) levelsInfo.stars += starsCount - levelsStats[game.level]
+        levelsStats[game.level] = starsCount
+    }
+    return starsCount
 }

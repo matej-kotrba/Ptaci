@@ -1,3 +1,34 @@
+// LEVELS, GAME, PROGRESS INFO
+
+var game = {
+    display: "menu",
+    stop: false,
+    level: 0
+}
+
+var playerValues = {
+    draw: false,
+    shoot: false,
+    starCollected: false
+}
+
+var levelsInfo = {
+    levelsCompleted: 0,
+    stars: 0
+}
+
+var levelsStats = {}
+for (var i = 0; i < levely.length; i++) {
+    levelsStats[i] = 0
+}
+
+var skins = {
+    player: {
+        equipped: "normal",
+        owned: [],
+        locked: ["red"]
+    }
+}
 
 // VARIABLES
 
@@ -11,6 +42,10 @@ var destroyAnimation = []
 var pigs = []
 var pigsKillAnimation = []
 
+var levelObjectives = {
+    star: undefined
+}
+
 // MENU VARIABLES
 
 var buttons = []
@@ -19,14 +54,6 @@ var buttons = []
 
 setMenu()
 
-// LEVEL START 
-
-spawnPlayers()
-
-spawnObjects()
-
-spawnPigs()
-
 function main() {
 
     lastframe = timeStamp
@@ -34,99 +61,156 @@ function main() {
     dt = (timeStamp - lastframe) / (1000 / 60)
 
     if (game.display == "menu") {
-        c.drawImage(menuImages.bg,-1,0,canvas.width,canvas.height)
-        for (var i in buttons) {
-            buttons[i].render()
-            buttons[i].click()
+        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
+    }
+
+    else if (game.display == "levels") {
+        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
+        c.fillStyle = "black"
+        c.globalAlpha = 0.6
+        c.fillRect(0, 0, canvas.width, canvas.height)
+        c.globalAlpha = 1
+    }
+
+    else if (game.display == "postmatch") {
+        c.fillStyle = "black"
+        c.globalAlpha = 0.05
+        c.fillRect(0, 0, canvas.width, canvas.height)
+        c.globalAlpha = 0.2
+        var starsCount = starsEarned()
+        for (var i = 0; i < starsCount; i++) {
+            c.drawImage(menuImages.star, canvas.width / 2 - 400 + 300 * i, 100, 200, 200)
         }
+        for (var k = 0; k < 3 - starsCount; k++) {
+            c.drawImage(menuImages.blankstar, canvas.width / 2 + (-400 + starsCount * 300) + 300 * k, 100, 200, 200)
+        }
+        c.fillStyle = "white"
+        c.font = "45px serif"
+        c.fillText("All pigs killed", 250, 470);
+        (pigs.length == 0) ? c.drawImage(menuImages.tick, 400, 380, 100, 100) : c.drawImage(menuImages.cross, 400, 400, 100, 100);
+        c.fillText(levely[game.level]["objectives"][0] + " birds left", 250, 570);
+        (levely[game.level]["objectives"][0] <= playerShots.length - (playerValues.shoot == true) ? 1 : 0) ? c.drawImage(menuImages.tick, 400, 480, 100, 100) : c.drawImage(menuImages.cross, 400, 500, 100, 100);
+        c.fillText("Star collected", 250, 670);
+        (levelObjectives.star == undefined) ? c.drawImage(menuImages.tick, 400, 580, 100, 100) : c.drawImage(menuImages.cross, 400, 600, 100, 100)
+        c.font = "25px serif"
+        c.textAlign = "center"
+        if (pigs.length != 0) c.fillText("You need to kill all Pigs to advance through levels", 800, 780)
+        c.globalAlpha = 1
+    }
+
+    else if (game.display == "pause") {
+        c.fillStyle = "rgb(22, 22, 22, 0.2)"
+        c.fillRect(0,0,canvas.width,canvas.height)
     }
 
     else if (!game.stop && game.display == "game") {
 
-        c.clearRect(0, 0, canvas.width, canvas.height)
-
-        drawPlayerStart()
-
-        // shoot
-
-        if (playerValues.shoot) {
-            playerShots[0].xs *= 0.995
-            playerShots[0].ys *= 0.995
-            playerShots[0].x += playerShots[0].xs * dt
-            playerShots[0].ys += playerShots[0].g * dt
-            playerShots[0].y += playerShots[0].ys * dt
+        if (playerShots.length == 0 || (pigs.length == 0 && pigsKillAnimation.length == 0)) {
+            setPostMatch()
         }
 
-        objectCollision()
+        else {
 
-        for (var i in objects) {
-            objects[i].gravity()
-            objects[i].render()
-        }
+            if (game.display == "game") {
 
-        //  mouse move render 
+                c.clearRect(0, 0, canvas.width, canvas.height)
 
-        if (playerValues.draw) {
-            if (Math.round(vzdalenost(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300)) <= 220) {
-                playerShots[0].x = mouse.movex
-                playerShots[0].y = mouse.movey
+                drawPlayerStart()
+
+                // shoot
+
+                if (playerValues.shoot) {
+                    playerShots[0].xs *= 0.995
+                    playerShots[0].ys *= 0.995
+                    playerShots[0].x += playerShots[0].xs * dt
+                    playerShots[0].ys += playerShots[0].g * dt
+                    playerShots[0].y += playerShots[0].ys * dt
+                }
+
+                objectCollision()
+
+                for (var i in objects) {
+                    objects[i].gravity()
+                    objects[i].render()
+                }
+
+                //  mouse move render 
+
+                if (playerValues.draw) {
+                    if (Math.round(vzdalenost(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300)) <= 220) {
+                        playerShots[0].x = mouse.movex
+                        playerShots[0].y = mouse.movey
+                    }
+                    if (vzdalenost(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300) > 220) {
+                        var xs = xxs(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300)
+                        var ys = yys(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300)
+                        playerShots[0].x = 270 + xs * 220
+                        playerShots[0].y = canvas.height - 300 + ys * 220
+                    }
+                }
+                else if (!playerValues.shoot) {
+                    playerShotsRender()
+                }
+
+                // bounce
+
+                if (playerShots.length > 0 && playerValues.shoot) bounce()
+
+                //
+
+                spliceAnimation()
+
+                for (var i in destroyAnimation) {
+                    destroyAnimation[i].gravity()
+                    destroyAnimation[i].render()
+                }
+
+                // Pigs
+
+                pigCollision()
+
+                for (var i in pigs) {
+                    pigs[i].gravity()
+                    pigs[i].render()
+                }
+
+                for (var i in pigsKillAnimation) {
+                    pigsKillAnimation[i].render()
+                    pigsKillAnimation[i].kill()
+                }
+
+                // Star
+
+
+                if (levelObjectives.star != undefined) {
+                    levelObjectives.star.pick()
+                    levelObjectives.star.render()
+                }
+
+                // player shots render
+
+                for (var i in playerShots) {
+                    playerShots[i].render()
+                }
+
+                // string redner
+
+                drawString()
+
+                // Delete player
+                if ((Math.abs(playerShots[0].xs) <= 1 && Math.abs(playerShots[0].ys) <= 1) && playerValues.shoot) {
+                    playerShots.splice(0, 1)
+                    playerValues.draw = false
+                    playerValues.shoot = false
+                }
             }
-            if (vzdalenost(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300) > 220) {
-                var xs = xxs(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300)
-                var ys = yys(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300)
-                playerShots[0].x = 270 + xs * 220
-                playerShots[0].y = canvas.height - 300 + ys * 220
-            }
         }
-        else if (!playerValues.shoot) {
-            playerShotsRender()
-        }
-
-
-
-        // bounce
-
-        if (playerShots.length > 0 && playerValues.shoot) bounce()
-
-        if ((Math.abs(playerShots[0].xs) <= 1 && Math.abs(playerShots[0].ys) <= 1) && playerValues.shoot) {
-            playerShots.splice(0, 1)
-            playerValues.draw = false
-            playerValues.shoot = false
-        }
-
-        //
-
-        spliceAnimation()
-
-        for (var i in destroyAnimation) {
-            destroyAnimation[i].gravity()
-            destroyAnimation[i].render()
-        }
-
-        // Pigs
-
-        pigCollision()
-
-        for (var i in pigs) {
-            pigs[i].gravity()
-            pigs[i].render()
-        }
-
-        for (var i in pigsKillAnimation) {
-            pigsKillAnimation[i].render()
-            pigsKillAnimation[i].kill()
-        }
-
-        // player shots render
-
-        for (var i in playerShots) {
-            playerShots[i].render()
-        }
-
-        // string redner
-
-        drawString()
     }
+
+    for (var i in buttons) {
+        buttons[i].render()
+    }
+
     requestAnimationFrame(main)
 }
 

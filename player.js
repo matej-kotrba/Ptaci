@@ -1,8 +1,10 @@
 // PLAYER
 var playerImages = {
     normal: new Image(),
+    normalRed: new Image(),
     set: () => {
         playerImages.normal.src = "./img/normalbird.png"
+        playerImages.normalRed.src = "./img/redbird.png"
     }
 }
 
@@ -30,12 +32,21 @@ class Player {
         c.save()
         c.translate(this.x, this.y)
         c.rotate(this.angle)
-        c.drawImage(playerImages.normal, -this.r, -this.r, this.r * 2, this.r * 2)
+        switch (skins.player.equipped) {
+            case "normal": {
+                c.drawImage(playerImages.normal, -this.r, -this.r, this.r * 2, this.r * 2)
+                break
+            }
+            case "red": {
+                c.drawImage(playerImages.normalRed, -this.r, -this.r, this.r * 2, this.r * 2)
+                break
+            }
+        }
         c.restore()
         c.lineWidth = 5
         c.strokeStyle = "black"
         c.beginPath()
-        c.arc(this.x,this.y,this.r,0,2*Math.PI)
+        c.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
         c.stroke()
         c.closePath()
     }
@@ -76,7 +87,8 @@ function bounce() {
         playerShots[0].xs *= -0.7
     }
     if (playerShots[0].y + playerShots[0].r > canvas.height || playerShots[0].y - playerShots[0].r < 0) {
-        playerShots[0].ys < 0 ? playerShots[0].y = playerShots[0].r : playerShots[0].y = canvas.height - playerShots[0].r
+        if (playerShots[0].y + playerShots[0].r > canvas.height) playerShots[0].y = canvas.height - 1 - playerShots[0].r
+        if (playerShots[0].y - playerShots[0].r < 0) playerShots[0].y = 1 + playerShots[0].r
         playerShots[0].ys *= -0.7
     }
 }
