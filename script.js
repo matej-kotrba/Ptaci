@@ -98,7 +98,7 @@ canvas.addEventListener("mouseup", (e) => {
             mouse.y > buttons[i].y && mouse.y < buttons[i].y + buttons[i].h) ||
             (mouse.x > buttons[i].baseX - buttons[i].baseW / 2 && mouse.x < buttons[i].baseX + buttons[i].baseW / 2 &&
                 mouse.y > buttons[i].y && mouse.y < buttons[i].y + buttons[i].h)) {
-            pageSwitch(i)
+            buttons[i].onclick()
             break
         }
     }
@@ -139,4 +139,15 @@ function spawnPigs(index) {
 
 function spawnStar(index) {
     levelObjectives.star = new Star(levely[+index - 1]["objectives"][1][0], levely[+index - 1]["objectives"][1][1])
+}
+
+// STAR
+
+function showStarCount() {
+    if (game.display != "game") {
+        c.fillStyle = "yellow"
+        c.font = "45px Verdana"
+        c.fillText(levelsInfo.stars + "x", canvas.width - 110, 48)
+        c.drawImage(menuImages.star, canvas.width - 55, 5, 50, 50)
+    }
 }

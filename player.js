@@ -32,16 +32,7 @@ class Player {
         c.save()
         c.translate(this.x, this.y)
         c.rotate(this.angle)
-        switch (skins.player.equipped) {
-            case "normal": {
-                c.drawImage(playerImages.normal, -this.r, -this.r, this.r * 2, this.r * 2)
-                break
-            }
-            case "red": {
-                c.drawImage(playerImages.normalRed, -this.r, -this.r, this.r * 2, this.r * 2)
-                break
-            }
-        }
+        c.drawImage(equippedSkin("player"), -this.r, -this.r, this.r * 2, this.r * 2)
         c.restore()
         c.lineWidth = 5
         c.strokeStyle = "black"

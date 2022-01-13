@@ -24,9 +24,19 @@ for (var i = 0; i < levely.length; i++) {
 
 var skins = {
     player: {
-        equipped: "normal",
-        owned: [],
-        locked: ["red"]
+        normal: {
+            owned: true,
+            equipped: true,
+            image: playerImages.normal
+        },
+        red: {
+            owned: false,
+            equipped: false,
+            image: playerImages.normalRed
+        }
+    },
+    other: {
+        pursching: undefined
     }
 }
 
@@ -62,6 +72,36 @@ function main() {
 
     if (game.display == "menu") {
         c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
+    }
+
+    else if (game.display == "shop") {
+        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
+        c.fillStyle = "black"
+        c.globalAlpha = 0.6
+        c.fillRect(0, 0, canvas.width, canvas.height)
+        c.globalAlpha = 1
+    }
+
+    else if (game.display == "costumize") {
+        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
+        c.fillStyle = "black"
+        c.globalAlpha = 0.6
+        c.fillRect(0, 0, canvas.width, canvas.height)
+        c.globalAlpha = 1
+    }
+
+    else if (game.display == "transaction") {
+        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
+        c.fillStyle = "black"
+        c.globalAlpha = 0.8
+        c.fillRect(0, 0, canvas.width, canvas.height)
+        c.globalAlpha = 1
+        c.fillStyle = "rgb(59, 59, 59)"
+        c.fillRect(300, 100, canvas.width - 600, canvas.height - 200)
+        c.textAlign = "center"
+        c.font = "30px Verdana"
+        c.fillStyle = "white"
+        c.fillText("Are you sure you want to buy \'" + skins.other.pursching + "\'", canvas.width / 2, 200)
     }
 
     else if (game.display == "levels") {
@@ -100,7 +140,7 @@ function main() {
 
     else if (game.display == "pause") {
         c.fillStyle = "rgb(22, 22, 22, 0.2)"
-        c.fillRect(0,0,canvas.width,canvas.height)
+        c.fillRect(0, 0, canvas.width, canvas.height)
     }
 
     else if (!game.stop && game.display == "game") {
@@ -210,6 +250,8 @@ function main() {
     for (var i in buttons) {
         buttons[i].render()
     }
+
+    showStarCount()
 
     requestAnimationFrame(main)
 }
