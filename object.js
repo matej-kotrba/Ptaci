@@ -21,6 +21,7 @@ class Object {
     }
     gravity() {
         var lowestPoint = canvas.height - 5
+        var n = 1/dt
         for (var i in objects) {
             if (i != objects.indexOf(this) && playerShots[0].x >= objects[i].x && playerShots[0].x <= objects[i].x + objects[i].values.w &&
                 playerShots[0].y <= objects[i].y /*+ objects[i].values.h + playerShots[0].r*/) lowestPoint = playerShots[0].y - playerShots[0].r - 5
@@ -28,7 +29,7 @@ class Object {
         if (!this.onLand && !(playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
             playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r &&
             playerShots[0].y + playerShots[0].r >= lowestPoint)) {
-            this.v += this.g
+            this.v += this.g*(1/(n*(n+1)/2))
             this.y += this.v
         }
         else if (playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
@@ -273,7 +274,7 @@ class ObjectDestroy {
         c.restore()
     }
     gravity() {
-        this.ys -= this.g
+        this.ys -= this.g * dt
     }
 }
 

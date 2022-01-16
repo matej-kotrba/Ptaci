@@ -13,7 +13,7 @@ class Pig {
         this.y = y
         this.r = 50
         this.v = 0
-        this.g = 0.4
+        this.g = 0.3
         this.angle = 0
         this.onLand = false
     }
@@ -31,10 +31,10 @@ class Pig {
         c.closePath()
     }
     gravity() {
+        var n = 1/dt
         if (!this.onLand) {
-            this.v += this.g * (2/3*dt)
-            if (dt < 0.9) this.y += this.v * 2/3
-            else this.y += this.v
+            this.v += this.g*(1/(n*(n+1)/2))
+            this.y += this.v
         }
         else this.v = 0
     }
