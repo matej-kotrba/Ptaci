@@ -15,6 +15,8 @@ function setGame(level) {
     destroyAnimation = []
     pigs = []
     pigsKillAnimation = []
+    playerEffects.array = []
+    playerEffects.boomerArray = []
     levelObjectives.star = undefined
     playerValues.draw = false
     playerValues.shoot = false

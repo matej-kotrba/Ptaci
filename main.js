@@ -189,7 +189,7 @@ function main() {
                     playerShots[0].ys *= 0.995
                     playerShots[0].x += playerShots[0].xs * dt
                     playerShots[0].ys += playerShots[0].g * dt
-                    playerShots[0].y += playerShots[0].ys * dt
+                    playerShots[0].y += playerShots[0].ys
                 }
 
                 objectCollision(playerShots[0])
