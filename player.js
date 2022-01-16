@@ -73,11 +73,11 @@ class BoomerExplode {
     }
     render() {
         if (!this.reverse) {
-            if (this.r < 150) this.r += 4
+            if (this.r < 175) this.r += 8
             else this.reverse = true
         }
         else {
-            if (this.r > 0) this.r -= 7
+            if (this.r > 0) this.r -= 12
         }
         if (this.r <= 0) {
             playerEffects.boomerArray.splice(playerEffects.boomerArray.indexOf(this), 1)
@@ -86,6 +86,16 @@ class BoomerExplode {
         c.beginPath()
         c.fillStyle = "rgb(0,0,0,0.8)"
         c.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
+        c.fill()
+        c.closePath()
+        c.beginPath()
+        c.fillStyle = "rgb(255,0,0,0.8)"
+        if (this.r > 50) c.arc(this.x, this.y, this.r - 50, 0, 2 * Math.PI)
+        c.fill()
+        c.closePath()
+        c.beginPath()
+        c.fillStyle = "rgb(255,255,0,0.8)"
+        if (this.r > 100) c.arc(this.x, this.y, this.r - 100, 0, 2 * Math.PI)
         c.fill()
         c.closePath()
     }
@@ -106,14 +116,12 @@ class BoomerExplode {
                 && this.y <= objects[i].y + objects[i].values.h) {
                 objectDestroy(objects[i])
             }
-
             else if (this.x >= objects[i].x
                 && this.x <= objects[i].x + objects[i].values.w
                 && this.y - this.r >= objects[i].y
                 && this.y - this.r <= objects[i].y + objects[i].values.h) {
                 objectDestroy(objects[i])
             }
-
             else if (this.x >= objects[i].x
                 && this.x <= objects[i].x + objects[i].values.w
                 && this.y + this.r >= objects[i].y
@@ -131,7 +139,6 @@ class BoomerExplode {
             }
             else if (vzdalenost(objects[i].x + objects[i].values.w, this.x, objects[i].y + objects[i].values.h, this.y) <= this.r) {
                 objectDestroy(objects[i])
-
             }
         }
     }

@@ -257,7 +257,7 @@ class Button {
                         c.strokeStyle = this.variables.textcolor
                         c.strokeRect(this.x - this.w / 2, this.y, this.w, this.h)
                         c.drawImage(this.text.image, this.x - 75, this.y + this.h / 2 - 75, 150, 150)
-                        if (!skinOwned(this.text.for,this.text.skin)) {
+                        if (!skinOwned(this.text.for, this.text.skin)) {
                             c.globalAlpha = 0.3
                             c.drawImage(menuImages.chain, this.x - this.w / 2, this.y, this.w, this.h)
                         }
@@ -272,7 +272,7 @@ class Button {
                         c.fillStyle = this.variables.bgcolor
                         c.fillRect(this.x - this.w / 2, this.y, this.w, this.h)
                         c.drawImage(this.text.image, this.x - 75, this.y + this.h / 2 - 75, 150, 150)
-                        if (!skinOwned(this.text.for,this.text.skin)) c.drawImage(menuImages.chain, this.x - this.w / 2, this.y, this.w, this.h)
+                        if (!skinOwned(this.text.for, this.text.skin)) c.drawImage(menuImages.chain, this.x - this.w / 2, this.y, this.w, this.h)
                         else c.drawImage(menuImages.tick, this.x + this.w / 2 - 60, this.y + this.h - 60, 50, 50)
                         c.fillStyle = "yellow"
                         c.font = "30px Verdana"
@@ -420,4 +420,12 @@ function pageSwitchDirect(page) {
     }
     mouse.x = undefined
     mouse.y = undefined
+}
+
+function backgroundSet() {
+    c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
+    c.fillStyle = "black"
+    c.globalAlpha = 0.6
+    c.fillRect(0, 0, canvas.width, canvas.height)
+    c.globalAlpha = 1
 }

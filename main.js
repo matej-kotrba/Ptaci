@@ -112,19 +112,11 @@ function main() {
     }
 
     else if (game.display == "shop") {
-        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
-        c.fillStyle = "black"
-        c.globalAlpha = 0.6
-        c.fillRect(0, 0, canvas.width, canvas.height)
-        c.globalAlpha = 1
+        backgroundSet()
     }
 
     else if (game.display == "costumize") {
-        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
-        c.fillStyle = "black"
-        c.globalAlpha = 0.6
-        c.fillRect(0, 0, canvas.width, canvas.height)
-        c.globalAlpha = 1
+        backgroundSet()
     }
 
     else if (game.display == "transaction") {
@@ -142,11 +134,7 @@ function main() {
     }
 
     else if (game.display == "levels") {
-        c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
-        c.fillStyle = "black"
-        c.globalAlpha = 0.6
-        c.fillRect(0, 0, canvas.width, canvas.height)
-        c.globalAlpha = 1
+        backgroundSet()
     }
 
     else if (game.display == "postmatch") {
@@ -168,7 +156,7 @@ function main() {
         c.fillText(levely[game.level]["objectives"][0] + " birds left", 250, 570);
         (levely[game.level]["objectives"][0] <= playerShots.length - (playerValues.shoot == true) ? 1 : 0) ? c.drawImage(menuImages.tick, 400, 480, 100, 100) : c.drawImage(menuImages.cross, 400, 500, 100, 100);
         c.fillText("Star collected", 250, 670);
-        (levelObjectives.star == undefined) ? c.drawImage(menuImages.tick, 400, 580, 100, 100) : c.drawImage(menuImages.cross, 400, 600, 100, 100)
+        (playerValues.starCollected) ? c.drawImage(menuImages.tick, 400, 580, 100, 100) : c.drawImage(menuImages.cross, 400, 600, 100, 100)
         c.font = "25px serif"
         c.textAlign = "center"
         if (pigs.length != 0) c.fillText("You need to kill all Pigs to advance through levels", 800, 780)

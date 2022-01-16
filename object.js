@@ -34,12 +34,12 @@ class Object {
         else if (playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
             playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r &&
             playerShots[0].y + playerShots[0].r >= lowestPoint) {
-            this.y = playerShots[0].y - playerShots[0].r - this.values.h 
+            this.y = playerShots[0].y - playerShots[0].r - this.values.h
             this.v = 0
         }
         else {
             this.v = 0
-            
+
         }
         if (playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
             playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r &&
@@ -50,165 +50,147 @@ class Object {
 function objectCollision() {
     for (var i in objects) {
 
+        var objekt = objects[i]
+        var hrac = playerShots[0]
+
         objectEachOneBlock(i)
 
-        if (objects[i].y + objects[i].values.h >= canvas.height) {
-            objects[i].y = canvas.height - objects[i].values.h
-            demage(objects[i], "grav")
-            objects[i].v = 0
-            objects[i].onLand = true
+        if (objekt.y + objekt.values.h >= canvas.height) {
+            objekt.y = canvas.height - objekt.values.h
+            demage(objekt, "grav")
+            objekt.v = 0
+            objekt.onLand = true
         }
 
-        if (playerShots[0].x + playerShots[0].r >= objects[i].x
-            && playerShots[0].x + playerShots[0].r <= objects[i].x + objects[i].values.w
-            && playerShots[0].y >= objects[i].y
-            && playerShots[0].y <= objects[i].y + objects[i].values.h) {
-            demage(objects[i], "hor")
-            if (objects[i].hp > 0) {
-                playerShots[0].xs *= -0.85
-                playerShots[0].x = objects[i].x - playerShots[0].r
+        if (hrac.x + hrac.r >= objekt.x
+            && hrac.x + hrac.r <= objekt.x + objekt.values.w
+            && hrac.y >= objekt.y
+            && hrac.y <= objekt.y + objekt.values.h) {
+            demage(objekt, "hor")
+            if (objekt.hp > 0) {
+                hrac.xs *= -0.7
+                hrac.x = objekt.x - hrac.r
             }
-            else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
-            }
+            else objectDestroyCons(objekt)
             console.log("a")
         }
-        else if (playerShots[0].x - playerShots[0].r >= objects[i].x
-            && playerShots[0].x - playerShots[0].r <= objects[i].x + objects[i].values.w
-            && playerShots[0].y >= objects[i].y
-            && playerShots[0].y <= objects[i].y + objects[i].values.h) {
-            demage(objects[i], "hor")
-            if (objects[i].hp > 0) {
-                playerShots[0].xs *= -0.85
-                playerShots[0].x = objects[i].x + objects[i].values.w + playerShots[0].r
+        else if (hrac.x - hrac.r >= objekt.x
+            && hrac.x - hrac.r <= objekt.x + objekt.values.w
+            && hrac.y >= objekt.y
+            && hrac.y <= objekt.y + objekt.values.h) {
+            demage(objekt, "hor")
+            if (objekt.hp > 0) {
+                hrac.xs *= -0.7
+                hrac.x = objekt.x + objekt.values.w + hrac.r
             }
-            else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
-            }
+            else objectDestroyCons(objekt)
             console.log("b")
         }
 
-        else if (playerShots[0].x >= objects[i].x
-            && playerShots[0].x <= objects[i].x + objects[i].values.w
-            && playerShots[0].y - playerShots[0].r >= objects[i].y
-            && playerShots[0].y - playerShots[0].r <= objects[i].y + objects[i].values.h) {
-            demage(objects[i], "ver")
-            if (objects[i].hp > 0) {
-                playerShots[0].ys *= -1
-                //  if (objects[i].y + objects[i].values.h + playerShots[0].r*2) playerShots[0].y = objects[i].y + objects[i].values.h + playerShots[0].r
-                playerShots[0].y = objects[i].y + objects[i].values.h + playerShots[0].r
+        else if (hrac.x >= objekt.x
+            && hrac.x <= objekt.x + objekt.values.w
+            && hrac.y - hrac.r >= objekt.y
+            && hrac.y - hrac.r <= objekt.y + objekt.values.h) {
+            demage(objekt, "ver")
+            if (objekt.hp > 0) {
+                hrac.ys *= -1
+                //  if (objekt.y + objekt.values.h + hrac.r*2) hrac.y = objekt.y + objekt.values.h + hrac.r
+                hrac.y = objekt.y + objekt.values.h + hrac.r
             }
-            else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
-            }
+            else objectDestroyCons(objekt)
             console.log("c")
         }
 
-        else if (playerShots[0].x >= objects[i].x
-            && playerShots[0].x <= objects[i].x + objects[i].values.w
-            && playerShots[0].y + playerShots[0].r >= objects[i].y
-            && playerShots[0].y + playerShots[0].r <= objects[i].y + objects[i].values.h) {
-            demage(objects[i], "ver")
-            if (objects[i].hp > 0) {
-                playerShots[0].ys *= -1
-                playerShots[0].ys *= 0.5
-                playerShots[0].y = objects[i].y - playerShots[0].r - 0.1
+        else if (hrac.x >= objekt.x
+            && hrac.x <= objekt.x + objekt.values.w
+            && hrac.y + hrac.r >= objekt.y
+            && hrac.y + hrac.r <= objekt.y + objekt.values.h) {
+            demage(objekt, "ver")
+            if (objekt.hp > 0) {
+                hrac.ys *= -1
+                hrac.ys *= 0.5
+                hrac.y = objekt.y - hrac.r - 0.1
             }
-            else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
-            }
+            else objectDestroyCons(objekt)
             console.log("d")
         }
-        else if (vzdalenost(objects[i].x, playerShots[0].x, objects[i].y, playerShots[0].y) <= playerShots[0].r) {
-            if (playerShots[0].x <= objects[i].x - playerShots[0].r) demage(objects[i], "ver")
-            else demage(objects[i], "hor")
-            if (objects[i].hp > 0) {
-                if (playerShots[0].xs >= 0) {                
-                    playerShots[0].ys *= -0.5
-                    playerShots[0].xs *= -0.85
+        else if (vzdalenost(objekt.x, hrac.x, objekt.y, hrac.y) <= hrac.r) {
+            if (hrac.x <= objekt.x - hrac.r + hrac.xs) {
+                demage(objekt, "hor")
+            }
+            else {
+                demage(objekt, "ver")
+            }
+            if (objekt.hp > 0) {
+                if (hrac.xs >= 0) {
+                    hrac.ys *= -0.5
+                    hrac.xs *= -0.85
                 }
                 else {
-                    playerShots[0].ys *= -0.5
+                    hrac.ys *= -0.5
                 }
             }
             else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
+
 
             }
             console.log("e")
         }
-        else if (vzdalenost(objects[i].x + objects[i].values.w, playerShots[0].x, objects[i].y, playerShots[0].y) <= playerShots[0].r) {
-            if (playerShots[0].x >= objects[i].x + objects[i].w + objects[i].r) demage(objects[i], "ver")
-            else demage(objects[i], "hor")
-            if (objects[i].hp > 0) {
-                if (playerShots[0].xs <= 0) {
-                    playerShots[0].ys *= -0.5
-                    playerShots[0].xs *= -0.85
+        else if (vzdalenost(objekt.x + objekt.values.w, hrac.x, objekt.y, hrac.y) <= hrac.r) {
+            if (hrac.x >= objekt.x + objekt.w + objekt.r) demage(objekt, "hor")
+            else demage(objekt, "ver")
+            if (objekt.hp > 0) {
+                if (hrac.xs <= 0) {
+                    hrac.ys *= -0.5
+                    hrac.xs *= -0.85
                 }
                 else {
-                    playerShots[0].ys *= -0.5
+                    hrac.ys *= -0.5
                 }
             }
-            else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
-            }
+            else objectDestroyCons(objekt)
             console.log("f")
         }
-        else if (vzdalenost(objects[i].x, playerShots[0].x, objects[i].y + objects[i].values.h, playerShots[0].y) <= playerShots[0].r) {
-            if (playerShots[0].y >= objects[i].y && playerShots[0].ys < 0) demage(objects[i], "ver")
-            else demage(objects[i], "hor")
-            if (objects[i].hp > 0) {
-                if (playerShots[0].xs >= 0) {
-                    playerShots[0].x = objects[i].x - playerShots[0].r -1 
-                    playerShots[0].xs *= -1
-                    playerShots[0].ys *= -1
+        else if (vzdalenost(objekt.x, hrac.x, objekt.y + objekt.values.h, hrac.y) <= hrac.r) {
+            if (hrac.y >= objekt.y && hrac.ys < 0) demage(objekt, "ver")
+            else demage(objekt, "hor")
+            if (objekt.hp > 0) {
+                if (hrac.xs >= 0) {
+                    hrac.x = objekt.x - hrac.r - 1
+                    hrac.xs *= -1
+                    hrac.ys *= -1
                 }
             }
-            else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
-            }
+            else objectDestroyCons(objekt)
             console.log("g")
         }
-        else if (vzdalenost(objects[i].x + objects[i].values.w, playerShots[0].x, objects[i].y + objects[i].values.h, playerShots[0].y) <= playerShots[0].r) {
-            //if (playerShots[0].y >= objects[i].y && playerShots[0].ys < 0) demage(objects[i], "ver")
-            //else demage(objects[i], "hor")
-            if (objects[i].hp > 0) {
-                if (playerShots[0].xs <= 0) {
-                    playerShots[0].xs *= -1
-                    playerShots[0].ys *= -1
+        else if (vzdalenost(objekt.x + objekt.values.w, hrac.x, objekt.y + objekt.values.h, hrac.y) <= hrac.r) {
+            //if (hrac.y >= objekt.y && hrac.ys < 0) demage(objekt, "ver")
+            //else demage(objekt, "hor")
+            if (objekt.hp > 0) {
+                if (hrac.xs <= 0) {
+                    hrac.xs *= -1
+                    hrac.ys *= -1
                 }
             }
-            else {
-                playerShots[0].xs *= 0.5
-                playerShots[0].ys *= 0.5
-                objectDestroy(objects[i])
-            }
+            else objectDestroyCons(objekt)
             console.log("h")
 
         }
     }
 }
 
+function objectDestroyCons(index) {
+    playerShots[0].xs *= 0.5
+    playerShots[0].ys *= 0.5
+    objectDestroy(index)
+}
 
 function objectEachOneBlock(i) {
     for (var k in objects) {
         if (k != i) {
             if (objects[i].x + objects[i].values.w >= objects[k].x && objects[i].x <= objects[k].x + objects[k].values.w
-                && objects[i].y + objects[i].values.h >= objects[k].y && objects[i].y + objects[i].values.h/2 <= objects[k].y + objects[k].values.h) {
+                && objects[i].y + objects[i].values.h >= objects[k].y && objects[i].y + objects[i].values.h / 2 <= objects[k].y + objects[k].values.h) {
                 objects[i].y = objects[k].y - objects[i].values.h
                 demage(objects[i], "grav")
                 objects[i].v = 0
@@ -228,7 +210,7 @@ function demage(object, type) {
             break
         }
         case "ver": {
-            if (Math.abs(playerShots[0].ys) >= 10) object.hp -= Math.abs(playerShots[0].ys*0.9)
+            if (Math.abs(playerShots[0].ys) >= 10) object.hp -= Math.abs(playerShots[0].ys * 0.9)
             break
         }
         case "grav": {
@@ -308,47 +290,56 @@ function spliceAnimation() {
 function setTypeValuesObject(type, material) {
     var values = {}
     switch (type) {
+        case "little": {
+            values.w = 30
+            values.h = 120
+            break
+        }
         case "i": {
             values.w = 40
             values.h = 250
-            values.materialStats = getObjectStats(material)
             break
         }
         case "I": {
             values.w = 60
             values.h = 450
-            values.materialStats = getObjectStats(material)
             break
         }
         case "brick": {
             values.w = 300
             values.h = 300
-            values.materialStats = getObjectStats(material)
             break
         }
         case "rect": {
             values.w = 300
             values.h = 200
-            values.materialStats = getObjectStats(material)
+            break
+        }
+        case "normal": {
+            values.w = 300
+            values.h = 40
+            break
+        }
+        case "normalLong": {
+            values.w = 600
+            values.h = 50
             break
         }
         case "lay": {
             values.w = 400
             values.h = 50
-            values.materialStats = getObjectStats(material)
             break
         }
         case "layer": {
             values.w = 500
             values.h = 100
-            values.materialStats = getObjectStats(material)
             break
         }
         default:
             values.w = 1200
             values.h = 200
-            values.materialStats = getObjectStats(material)
     }
+    values.materialStats = getObjectStats(material)
     return values
 }
 

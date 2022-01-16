@@ -13,7 +13,7 @@ class Pig {
         this.y = y
         this.r = 50
         this.v = 0
-        this.g = 0.2
+        this.g = 0.4
         this.angle = 0
         this.onLand = false
     }
