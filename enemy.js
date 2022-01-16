@@ -13,7 +13,7 @@ class Pig {
         this.y = y
         this.r = 50
         this.v = 0
-        this.g = 0.3
+        this.g = 0.2
         this.angle = 0
         this.onLand = false
     }
@@ -54,7 +54,7 @@ function pigCollision() {
         if (pigs[k].y + pigs[k].r >= canvas.height) {
             pigs[k].y = canvas.height - pigs[k].r
             pigs[k].onLand = true
-            if (pigs[k].v > 10) {
+            if (pigs[k].v > 15) {
                 pigsKill(k)
                 return
             }

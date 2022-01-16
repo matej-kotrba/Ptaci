@@ -1,19 +1,17 @@
-function skinOwned(name) {
-    for (var i in skins) {
-        for (var k in skins[i]) {
-            if (k == name && skins[i][k].owned) return true
-        }
+function skinOwned(where, name) {
+    for (var i in skins[where]) {
+        if (i == name && skins[where][i].owned) return true
     }
     return false
 }
 
-function equippedSkin(name) {
+function equippedSkin(name, type) {
     for (var i in skins[name]) {
         if (skins[name][i].equipped) {
-            return skins[name][i].image
+            return skins[name][i][type]
         }
     }
-    return skins[name].normal.image
+    return skins[name].normal[type]
 }
 
 function switchSkin(name, skin) {

@@ -87,10 +87,11 @@ canvas.addEventListener("mousedown", (e) => {
 })
 
 canvas.addEventListener("mouseup", (e) => {
+    if (playerValues.shoot) playerShots[0].onclick()
     if (!playerValues.shoot && playerShots.length > 0 && playerValues.draw) {
         playerValues.draw = false
         playerValues.shoot = true
-        playerShots[0].xs = (-vzdalenostXY(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300).a / 10) * 1.5
+        playerShots[0].xs = (-vzdalenostXY(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300).a / 10) * 1.7
         playerShots[0].ys = (-vzdalenostXY(playerShots[0].x, 270, playerShots[0].y, canvas.height - 300).b / 10) * 1.5
     }
     for (var i in buttons) {
@@ -108,6 +109,18 @@ canvas.addEventListener("mousemove", (e) => {
     mouse.movex = e.offsetX * canvas.width / canvas.clientWidth | 0
     mouse.movey = e.offsetY * canvas.height / canvas.clientHeight | 0
 })
+
+function buttonHover() {
+    for (var i in buttons) {
+        if (mouse.movex > buttons[i].x - buttons[i].w / 2 && mouse.movex < buttons[i].x + buttons[i].w / 2 &&
+            mouse.movey > buttons[i].y && mouse.movey < buttons[i].y + buttons[i].h ||
+            mouse.movex > buttons[i].baseX - buttons[i].baseW / 2 && mouse.movex < buttons[i].baseX + buttons[i].baseW / 2 &&
+            mouse.movey > buttons[i].y && mouse.movey < buttons[i].y + buttons[i].h) {
+            return
+        }
+    }
+    document.getElementsByTagName('HTML')[0].style.cursor = "unset"
+}
 
 addEventListener("keydown", (e) => {
     if (e.code == "KeyR" && game.display == "game") setGame(game.level + 1)
@@ -128,6 +141,11 @@ function spawnObjects(index) {
 function spawnPlayers(index) {
     for (var i = 0; i < levely[index - 1]["players"][0]; i++) {
         playerShots.push(new Player())
+    }
+    if (levely[index - 1]["players"][1] != undefined) {
+        for (var i of levely[index - 1]["players"][1]) {
+            playerShots[i] = new Boomer()
+        }
     }
 }
 

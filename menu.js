@@ -53,12 +53,15 @@ function setPause() {
 function setShop() {
     game.display = "shop"
     buttons.push(new Button("buy", { image: playerImages.normalRed, text: 5, title: "Red Bird", skin: "red", for: "player" }, "transaction", canvas.width / 2, 250, 500, 100))
+    buttons.push(new Button("buy", { image: playerImages.normalGreen, text: 10, title: "Green Bird", skin: "green", for: "player" }, "transaction", canvas.width / 2, 250, 500, 100))
+    buttons.push(new Button("buy", { image: playerImages.circleRed, text: 5, title: "Red Circle", skin: "red", for: "playerEffects" }, "transaction", canvas.width / 2, 250, 500, 100))
+    buttons.push(new Button("buy", { image: playerImages.circleYellow, text: 10, title: "Yellow Circle", skin: "yellow", for: "playerEffects" }, "transaction", canvas.width / 2, 250, 500, 100))
     buttons.push(new Button("cross", 0, "menu", 100, 50, 50, 50))
 }
 
-function setTransaction(price) {
+function setTransaction(price, skin, trueName) {
     game.display = "transaction"
-    buttons.push(new Button("min", { text: "YES", purchase: true, price: price, for: "player", trueName: "red" }, "shop", canvas.width / 2 - 150, 450, 500, 100))
+    buttons.push(new Button("min", { text: "YES", purchase: true, price: price, for: skin, trueName: trueName }, "shop", canvas.width / 2 - 150, 450, 500, 100))
     buttons.push(new Button("min", { text: "NO", purchase: false }, "shop", canvas.width / 2 + 150, 450, 500, 100))
 }
 
@@ -67,7 +70,7 @@ function setCostumize() {
     for (var i in skins) {
         if (i != "other") {
             for (var k in skins[i]) {
-                buttons.push(new Button("skinSelect", { for: i, skin: skins[i][k], name: k,image: skins[i][k].image }, "", canvas.width / 2 + 150, 450, 500, 100))
+                buttons.push(new Button("skinSelect", { for: i, skin: skins[i][k], name: k, image: skins[i][k].image }, "", canvas.width / 2 + 150, 450, 500, 100))
             }
         }
     }
@@ -245,8 +248,8 @@ class Button {
                     this.variables.textcolor = "rgb(222, 236, 18)"
                     this.w = 300
                     this.h = 200
-                    this.x = ((buttons.length + 1) > 4) ? ((buttons.length + 1) - 4 * Math.floor((buttons.length) / 4)) * this.w : (buttons.length + 1) * this.w
-                    this.y = this.h * Math.floor((buttons.length) / 4) + 50
+                    this.x = buttons.length * this.w + this.w / 2 + buttons.length * 50 + 70
+                    this.y = this.h * Math.floor((buttons.length) / 4) + 150
                     this.hover = () => {
                         c.fillStyle = this.variables.bgcolor
                         c.fillRect(this.x - this.w / 2, this.y, this.w, this.h)
@@ -254,7 +257,7 @@ class Button {
                         c.strokeStyle = this.variables.textcolor
                         c.strokeRect(this.x - this.w / 2, this.y, this.w, this.h)
                         c.drawImage(this.text.image, this.x - 75, this.y + this.h / 2 - 75, 150, 150)
-                        if (!skinOwned(this.text.skin)) {
+                        if (!skinOwned(this.text.for,this.text.skin)) {
                             c.globalAlpha = 0.3
                             c.drawImage(menuImages.chain, this.x - this.w / 2, this.y, this.w, this.h)
                         }
@@ -269,7 +272,7 @@ class Button {
                         c.fillStyle = this.variables.bgcolor
                         c.fillRect(this.x - this.w / 2, this.y, this.w, this.h)
                         c.drawImage(this.text.image, this.x - 75, this.y + this.h / 2 - 75, 150, 150)
-                        if (!skinOwned(this.text.skin)) c.drawImage(menuImages.chain, this.x - this.w / 2, this.y, this.w, this.h)
+                        if (!skinOwned(this.text.for,this.text.skin)) c.drawImage(menuImages.chain, this.x - this.w / 2, this.y, this.w, this.h)
                         else c.drawImage(menuImages.tick, this.x + this.w / 2 - 60, this.y + this.h - 60, 50, 50)
                         c.fillStyle = "yellow"
                         c.font = "30px Verdana"
@@ -286,8 +289,8 @@ class Button {
                     this.variables.textcolor = "rgb(222, 236, 18)"
                     this.w = 300
                     this.h = 200
-                    this.x = (buttons.length % 4) * (this.w + 50) + this.w
-                    this.y = this.h * Math.floor((buttons.length) / 4) + 50
+                    this.x = (buttons.length % 3) * (this.w + 50) + this.w
+                    this.y = this.h * Math.floor((buttons.length) / 3) + 50 * Math.floor((buttons.length) / 3) + 50
                     this.hover = () => {
                         c.fillStyle = this.variables.bgcolor
                         c.fillRect(this.x - this.w / 2, this.y, this.w, this.h)
@@ -324,8 +327,13 @@ class Button {
     render() {
         if (mouse.movex > this.x - this.w / 2 && mouse.movex < this.x + this.w / 2 &&
             mouse.movey > this.y && mouse.movey < this.y + this.h || mouse.movex > this.baseX - this.baseW / 2 && mouse.movex < this.baseX + this.baseW / 2 &&
-            mouse.movey > this.y && mouse.movey < this.y + this.h) this.hover()
-        else this.normal()
+            mouse.movey > this.y && mouse.movey < this.y + this.h) {
+            this.hover()
+            document.getElementsByTagName('HTML')[0].style.cursor = "pointer"
+        }
+        else {
+            this.normal()
+        }
     }
 }
 
@@ -363,8 +371,13 @@ function pageSwitch(buttonIndex) {
             break
         }
         case "transaction": {
-            setTransaction(tlac.text.text)
-            skins.other.pursching = tlac.text.title
+            if (!skins[tlac.text.for][tlac.text.skin].owned) {
+                setTransaction(tlac.text.text, tlac.text.for, tlac.text.skin)
+                skins.other.pursching = tlac.text.title
+            }
+            else {
+                setShop()
+            }
             break
         }
         case "costumize": {

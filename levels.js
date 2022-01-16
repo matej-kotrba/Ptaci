@@ -1,7 +1,7 @@
 var levely = [
     {
         "objects": [
-            [500, 400, "rect", "metal"],
+            [520, 400, "rect", "metal"],
             [500, 700, null, "wood"],
             [1000, 400, "rect", "metal"],
             [700, 300, "lay", "ice"]
@@ -39,7 +39,54 @@ var levely = [
             // Birds left
             3,
             // Star
-            [200, 200]
+            [1420, 500]
+        ]
+    },
+    {
+        "objects": [
+            [1000, 200, "brick", "metal"],
+            [800, 600, "brick", "metal"],
+            [1200, -200, "brick", "metal"],
+            [1220, 0, "layer", "ice"],
+            //[500, 400, "brick", "metal"],
+            //[500, 400, "brick", "metal"],
+        ],
+        "players": [
+            5
+        ],
+        "pigs": [
+            [900, 500],
+            [1100, 0]
+        ],
+        "objectives": [
+            // Birds left
+            3,
+            // Star
+            [1420, 500]
+        ]
+    },
+    {
+        "objects": [
+            [600, 200, null, "metal"],
+            [600, 600, null, "metal"],
+            [600, 400, null, "ice"],
+            [600, -300, "I", "metal"],
+            //[500, 400, "brick", "metal"],
+            //[500, 400, "brick", "metal"],
+        ],
+        "players": [
+            3,
+            [0]
+        ],
+        "pigs": [
+            [600, -300],
+            [1100, 0]
+        ],
+        "objectives": [
+            // Birds left
+            1,
+            // Star
+            [1420, 500]
         ]
     }
 ]

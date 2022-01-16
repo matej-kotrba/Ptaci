@@ -118,7 +118,7 @@ function objectCollision() {
             if (objects[i].hp > 0) {
                 playerShots[0].ys *= -1
                 playerShots[0].ys *= 0.5
-                playerShots[0].y = objects[i].y - playerShots[0].r
+                playerShots[0].y = objects[i].y - playerShots[0].r - 0.1
             }
             else {
                 playerShots[0].xs *= 0.5
@@ -131,12 +131,12 @@ function objectCollision() {
             if (playerShots[0].x <= objects[i].x - playerShots[0].r) demage(objects[i], "ver")
             else demage(objects[i], "hor")
             if (objects[i].hp > 0) {
-                if (playerShots[0].xs >= 0) {
+                if (playerShots[0].xs >= 0) {                
                     playerShots[0].ys *= -0.5
                     playerShots[0].xs *= -0.85
                 }
                 else {
-                    playerShots[0].ys *= -1
+                    playerShots[0].ys *= -0.5
                 }
             }
             else {
@@ -156,7 +156,7 @@ function objectCollision() {
                     playerShots[0].xs *= -0.85
                 }
                 else {
-                    playerShots[0].ys *= -1
+                    playerShots[0].ys *= -0.5
                 }
             }
             else {
@@ -171,6 +171,7 @@ function objectCollision() {
             else demage(objects[i], "hor")
             if (objects[i].hp > 0) {
                 if (playerShots[0].xs >= 0) {
+                    playerShots[0].x = objects[i].x - playerShots[0].r -1 
                     playerShots[0].xs *= -1
                     playerShots[0].ys *= -1
                 }
@@ -334,6 +335,12 @@ function setTypeValuesObject(type, material) {
         case "lay": {
             values.w = 400
             values.h = 50
+            values.materialStats = getObjectStats(material)
+            break
+        }
+        case "layer": {
+            values.w = 500
+            values.h = 100
             values.materialStats = getObjectStats(material)
             break
         }

@@ -13,7 +13,7 @@ var playerValues = {
 }
 
 var levelsInfo = {
-    levelsCompleted: 0,
+    levelsCompleted: 10,
     stars: 0
 }
 
@@ -33,6 +33,38 @@ var skins = {
             owned: false,
             equipped: false,
             image: playerImages.normalRed
+        },
+        green: {
+            owned: false,
+            equipped: false,
+            image: playerImages.normalGreen
+        }
+    },
+    playerEffects: {
+        normal: {
+            owned: true,
+            equipped: true,
+            image: playerImages.circleNormal,
+            color: "rgb(255,255,255,0.2)"
+        },
+        red: {
+            owned: false,
+            equipped: false,
+            image: playerImages.circleRed,
+            color: "rgb(255,0,0,0.2)"
+        },
+        yellow: {
+            owned: false,
+            equipped: false,
+            image: playerImages.circleYellow,
+            color: "rgb(255,255,0,0.2)"
+        }
+    },
+    boomer: {
+        normal: {
+            owned: true,
+            equipped: true,
+            image: playerImages.boomerNormal
         }
     },
     other: {
@@ -47,6 +79,11 @@ var lastframe = 0
 var timeStamp = 0
 
 var playerShots = []
+var playerEffects = {
+    array: [],
+    boomerArray: [],
+    timer: 0,
+}
 var objects = []
 var destroyAnimation = []
 var pigs = []
@@ -167,7 +204,7 @@ function main() {
                     playerShots[0].y += playerShots[0].ys * dt
                 }
 
-                objectCollision()
+                objectCollision(playerShots[0])
 
                 for (var i in objects) {
                     objects[i].gravity()
@@ -228,6 +265,24 @@ function main() {
                 }
 
                 // player shots render
+                if (playerValues.shoot) {
+                    playerEffects.timer += Math.abs(playerShots[0].xs) * 0.15
+                    if (playerEffects.timer >= 5) {
+                        playerEffectPush()
+                        playerEffects.timer = 0
+                    }
+                }
+                for (var i in playerEffects.array) {
+                    playerEffects.array[i].delete()
+                }
+                for (var i in playerEffects.array) {
+                    playerEffects.array[i].render()
+                }
+
+                for (var i in playerEffects.boomerArray) {
+                    playerEffects.boomerArray[i].hitbox()
+                    playerEffects.boomerArray[i].render()
+                }
 
                 for (var i in playerShots) {
                     playerShots[i].render()
@@ -246,6 +301,8 @@ function main() {
             }
         }
     }
+
+    buttonHover()
 
     for (var i in buttons) {
         buttons[i].render()

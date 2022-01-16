@@ -2,9 +2,19 @@
 var playerImages = {
     normal: new Image(),
     normalRed: new Image(),
+    normalGreen: new Image(),
+    circleNormal: new Image(),
+    circleRed: new Image(),
+    circleYellow: new Image(),
+    boomerNormal: new Image(),
     set: () => {
         playerImages.normal.src = "./img/normalbird.png"
         playerImages.normalRed.src = "./img/redbird.png"
+        playerImages.normalGreen.src = "./img/normalGreen.png"
+        playerImages.circleNormal.src = "./img/circleNormal.png"
+        playerImages.circleRed.src = "./img/circleRed.png"
+        playerImages.circleYellow.src = "./img/circleYellow.png"
+        playerImages.boomerNormal.src = "./img/boomerNormal.png"
     }
 }
 
@@ -21,6 +31,7 @@ class Player {
         this.ys = 0
         this.g = 0.6
         this.angle = 0
+        this.onclick = () => { }
     }
     render() {
         /*c.beginPath()
@@ -32,7 +43,7 @@ class Player {
         c.save()
         c.translate(this.x, this.y)
         c.rotate(this.angle)
-        c.drawImage(equippedSkin("player"), -this.r, -this.r, this.r * 2, this.r * 2)
+        c.drawImage(equippedSkin(this.values.for, "image"), -this.r, -this.r, this.r * 2, this.r * 2)
         c.restore()
         c.lineWidth = 5
         c.strokeStyle = "black"
@@ -43,12 +54,100 @@ class Player {
     }
 }
 
+class Boomer extends Player {
+    constructor() {
+        super("boomer")
+        this.onclick = () => {
+            playerEffects.boomerArray.push(new BoomerExplode(this.x, this.y))
+            this.onclick = () => { }
+        }
+    }
+}
+
+class BoomerExplode {
+    constructor(x, y) {
+        this.x = x
+        this.y = y
+        this.r = 50
+        this.reverse = false
+    }
+    render() {
+        if (!this.reverse) {
+            if (this.r < 150) this.r += 4
+            else this.reverse = true
+        }
+        else {
+            if (this.r > 0) this.r -= 7
+        }
+        if (this.r <= 0) {
+            playerEffects.boomerArray.splice(playerEffects.boomerArray.indexOf(this), 1)
+            return
+        }
+        c.beginPath()
+        c.fillStyle = "rgb(0,0,0,0.8)"
+        c.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
+        c.fill()
+        c.closePath()
+    }
+    hitbox() {
+        for (var i in pigs) {
+            if (vzdalenost(this.x,pigs[i].x,this.y,pigs[i].y) <= this.r + pigs[i].r) pigsKill(i)
+        }
+        for (var i in objects) {
+            if (this.x + this.r >= objects[i].x
+                && this.x + this.r <= objects[i].x + objects[i].values.w
+                && this.y >= objects[i].y
+                && this.y <= objects[i].y + objects[i].values.h) {
+                objectDestroy(objects[i])
+            }
+            else if (this.x - this.r >= objects[i].x
+                && this.x - this.r <= objects[i].x + objects[i].values.w
+                && this.y >= objects[i].y
+                && this.y <= objects[i].y + objects[i].values.h) {
+                objectDestroy(objects[i])
+            }
+
+            else if (this.x >= objects[i].x
+                && this.x <= objects[i].x + objects[i].values.w
+                && this.y - this.r >= objects[i].y
+                && this.y - this.r <= objects[i].y + objects[i].values.h) {
+                objectDestroy(objects[i])
+            }
+
+            else if (this.x >= objects[i].x
+                && this.x <= objects[i].x + objects[i].values.w
+                && this.y + this.r >= objects[i].y
+                && this.y + this.r <= objects[i].y + objects[i].values.h) {
+                objectDestroy(objects[i])
+            }
+            else if (vzdalenost(objects[i].x, this.x, objects[i].y, this.y) <= this.r) {
+                objectDestroy(objects[i])
+            }
+            else if (vzdalenost(objects[i].x + objects[i].values.w, this.x, objects[i].y, this.y) <= this.r) {
+                objectDestroy(objects[i])
+            }
+            else if (vzdalenost(objects[i].x, this.x, objects[i].y + objects[i].values.h, this.y) <= this.r) {
+                objectDestroy(objects[i])
+            }
+            else if (vzdalenost(objects[i].x + objects[i].values.w, this.x, objects[i].y + objects[i].values.h, this.y) <= this.r) {
+                objectDestroy(objects[i])
+
+            }
+        }
+    }
+}
+
 function setTypeValuesPlayer(type) {
     var values = {}
     switch (type) {
+        case "boomer": {
+            values.r = 50
+            values.for = "boomer"
+            break
+        }
         default:
             values.r = 40
-            values.color = "yellow"
+            values.for = "player"
     }
     return values
 }
@@ -77,9 +176,31 @@ function bounce() {
         playerShots[0].xs < 0 ? playerShots[0].x = playerShots[0].r : playerShots[0].x = canvas.width - playerShots[0].r
         playerShots[0].xs *= -0.7
     }
-    if (playerShots[0].y + playerShots[0].r > canvas.height || playerShots[0].y - playerShots[0].r < 0) {
-        if (playerShots[0].y + playerShots[0].r > canvas.height) playerShots[0].y = canvas.height - 1 - playerShots[0].r
-        if (playerShots[0].y - playerShots[0].r < 0) playerShots[0].y = 1 + playerShots[0].r
+    if (playerShots[0].y + playerShots[0].r > canvas.height) {
+        if (playerShots[0].y + playerShots[0].r > canvas.height) playerShots[0].y = canvas.height - playerShots[0].r
         playerShots[0].ys *= -0.7
     }
+}
+
+class PlayerMoveEffect {
+    constructor(x, y) {
+        this.x = x
+        this.y = y
+        this.r = 40
+    }
+    render() {
+        c.beginPath()
+        c.fillStyle = equippedSkin("playerEffects", "color")
+        c.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
+        c.fill()
+        c.closePath()
+    }
+    delete() {
+        this.r--
+        if (this.r <= 0) playerEffects.array.splice(playerEffects.array.indexOf(this), 1)
+    }
+}
+
+function playerEffectPush() {
+    playerEffects.array.push(new PlayerMoveEffect(playerShots[0].x, playerShots[0].y))
 }
