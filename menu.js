@@ -23,60 +23,6 @@ var menuImages = {
 
 menuImages.set()
 
-function setMenu() {
-    buttons.push(new Button("normal", "PLAY", "levels", canvas.width / 2, 250, 500, 100))
-    buttons.push(new Button("normal", "SHOP", "shop", canvas.width / 2, 400, 500, 100))
-    buttons.push(new Button("normal", "COSTUMIZE", "costumize", canvas.width / 2, 550, 500, 100))
-}
-
-function setLevels() {
-
-    for (var i = 0; i < 12; i++) {
-        buttons.push(new Button("level", i + 1, "game", canvas.width / 2, 250))
-
-    }
-    buttons.push(new Button("cross", 0, "menu", 100, 50, 50, 50))
-}
-
-function setPostMatch() {
-    game.display = "postmatch"
-    buttons.push(new Button("again", game.level + 1, "game", 1200, 400, 150, 150))
-    buttons.push(new Button("exit", 0, "menu", 1200, 600, 150, 150))
-}
-
-function setPause() {
-    game.display = "pause"
-    buttons.push(new Button("normal", "RESUME", "resume", canvas.width / 2, 250, 500, 100))
-    buttons.push(new Button("normal", "EXIT", "levels", canvas.width / 2, 400, 500, 100))
-}
-
-function setShop() {
-    game.display = "shop"
-    buttons.push(new Button("buy", { image: playerImages.normalRed, text: 5, title: "Red Bird", skin: "red", for: "player" }, "transaction", canvas.width / 2, 250, 500, 100))
-    buttons.push(new Button("buy", { image: playerImages.normalGreen, text: 10, title: "Green Bird", skin: "green", for: "player" }, "transaction", canvas.width / 2, 250, 500, 100))
-    buttons.push(new Button("buy", { image: playerImages.circleRed, text: 5, title: "Red Circle", skin: "red", for: "playerEffects" }, "transaction", canvas.width / 2, 250, 500, 100))
-    buttons.push(new Button("buy", { image: playerImages.circleYellow, text: 10, title: "Yellow Circle", skin: "yellow", for: "playerEffects" }, "transaction", canvas.width / 2, 250, 500, 100))
-    buttons.push(new Button("cross", 0, "menu", 100, 50, 50, 50))
-}
-
-function setTransaction(price, skin, trueName) {
-    game.display = "transaction"
-    buttons.push(new Button("min", { text: "YES", purchase: true, price: price, for: skin, trueName: trueName }, "shop", canvas.width / 2 - 150, 450, 500, 100))
-    buttons.push(new Button("min", { text: "NO", purchase: false }, "shop", canvas.width / 2 + 150, 450, 500, 100))
-}
-
-function setCostumize() {
-    game.display = "costumize"
-    for (var i in skins) {
-        if (i != "other") {
-            for (var k in skins[i]) {
-                buttons.push(new Button("skinSelect", { for: i, skin: skins[i][k], name: k, image: skins[i][k].image }, "", canvas.width / 2 + 150, 450, 500, 100))
-            }
-        }
-    }
-    buttons.push(new Button("cross", 0, "menu", 100, 50, 50, 50))
-}
-
 class Button {
     constructor(type, text, page, x, y, w, h) {
         this.x = x
@@ -337,6 +283,8 @@ class Button {
     }
 }
 
+// Switch page with button
+
 function pageSwitch(buttonIndex) {
     var tlac = buttons[buttonIndex]
     if (tlac.page != "game" || levelsInfo.levelsCompleted >= buttonIndex) {
@@ -389,6 +337,8 @@ function pageSwitch(buttonIndex) {
     mouse.y = undefined
 }
 
+// Switch page directly
+
 function pageSwitchDirect(page) {
     if (page != "game") {
         buttons = []
@@ -420,12 +370,4 @@ function pageSwitchDirect(page) {
     }
     mouse.x = undefined
     mouse.y = undefined
-}
-
-function backgroundSet() {
-    c.drawImage(menuImages.bg, 0, 0, canvas.width, canvas.height)
-    c.fillStyle = "black"
-    c.globalAlpha = 0.6
-    c.fillRect(0, 0, canvas.width, canvas.height)
-    c.globalAlpha = 1
 }

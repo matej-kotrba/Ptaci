@@ -1,4 +1,5 @@
 var levely = [
+    // 1
     {
         "objects": [
             [520, 400, "rect", "metal"],
@@ -19,6 +20,7 @@ var levely = [
             [200, 200]
         ]
     },
+    // 2
     {
         "objects": [
             [500, 400, "lay", "metal"],
@@ -42,14 +44,13 @@ var levely = [
             [1420, 500]
         ]
     },
+    // 3
     {
         "objects": [
             [1000, 200, "brick", "metal"],
             [800, 600, "brick", "metal"],
             [1200, -200, "brick", "metal"],
             [1220, 0, "layer", "ice"],
-            //[500, 400, "brick", "metal"],
-            //[500, 400, "brick", "metal"],
         ],
         "players": [
             5
@@ -65,14 +66,13 @@ var levely = [
             [1420, 500]
         ]
     },
+    // 4
     {
         "objects": [
             [600, 200, null, "metal"],
             [600, 600, null, "metal"],
             [600, 400, null, "ice"],
             [600, -300, "I", "metal"],
-            //[500, 400, "brick", "metal"],
-            //[500, 400, "brick", "metal"],
         ],
         "players": [
             3,
@@ -89,6 +89,7 @@ var levely = [
             [1420, 500]
         ]
     },
+    // 5
     {
         "objects": [
             [600, 650, "i", "wood"],
@@ -97,8 +98,6 @@ var levely = [
             [1200, 650, "i", "wood"],
             [900, 250, "i", "wood"],
             [770, 600, "normal", "wood"],
-            //[500, 400, "brick", "metal"],
-            //[500, 400, "brick", "metal"],
         ],
         "players": [
             5
@@ -115,6 +114,7 @@ var levely = [
             [880, 150]
         ]
     },
+    // 6
     {
         "objects": [
             [600, 0, null, "metal"],
@@ -125,8 +125,6 @@ var levely = [
             [750, 500, "i", "wood"],
             [1000, 500, "i", "wood"],
             [1250, 500, "i", "wood"],
-            //[500, 400, "brick", "metal"],
-            //[500, 400, "brick", "metal"],
         ],
         "players": [
             5
@@ -143,6 +141,7 @@ var levely = [
             [1080, 650]
         ]
     },
+    // 7
     {
         "objects": [
             [620, 450, "I", "metal"],
@@ -152,8 +151,6 @@ var levely = [
             [700, 450, "lay", "metal"],
             [650, 150, "layer", "metal"],
             
-            //[500, 400, "brick", "metal"],
-            //[500, 400, "brick", "metal"],
         ],
         "players": [
             4,
@@ -172,6 +169,7 @@ var levely = [
             [850, 650]
         ]
     },
+    // 8
     {
         "objects": [
             [600, 800, "layer", "wood"],
@@ -182,15 +180,12 @@ var levely = [
             [800, -200, "I", "ice"],
             [920, 300, "i", "wood"],
             [861, 150, "normal", "ice"],
-            //[500, 400, "brick", "metal"],
-            //[500, 400, "brick", "metal"],
         ],
         "players": [
             4   
         ],
         "pigs": [
             [1020, 500],
-            //[1010, 600],
             [1260, 600],
             [1000, 100]
         ],
@@ -201,6 +196,7 @@ var levely = [
             [900, 400]
         ]
     },
+    // 9
     {
         "objects": [
             [600, 700, "i", "metal"],
@@ -209,8 +205,6 @@ var levely = [
             [1170, 350, "little", "metal"],
             [600, 350, "normalLong", "metal"],
             [1000, 150, "normalLong", "metal"],
-            //[500, 400, "brick", "metal"],
-            //[500, 400, "brick", "metal"],
         ],
         "players": [
             2,
@@ -218,7 +212,6 @@ var levely = [
         ],
         "pigs": [
             [1020, 500],
-            //[1010, 600],
             [1260, 600],
             [1000, 100]
         ],
@@ -228,5 +221,90 @@ var levely = [
             // Star
             [900, 400]
         ]
-    }     
+    },  
+    // 10 
+    {
+        "objects": [
+            [500, 600, "brick", "metal"],
+            [650, 300, "brick", "metal"],
+            [1200, 600, "brick", "metal"],
+            [1050, 300, "brick", "metal"],
+            [850, 200, "normal", "ice"],
+            [850, 600, "normal", "ice"],
+            [850, 600, "i", "ice"],
+            [1110, 600, "i", "ice"],
+        ],
+        "players": [
+            4
+        ],
+        "pigs": [
+            [1000, 800],
+            [1000, 100]
+        ],
+        "objectives": [
+            // Birds left
+            1,
+            // Star
+            [1400, 400]
+        ]
+    }, 
+    // 11 
+    {
+        "objects": [
+            [800, 650, "i", "wood"],
+            [641, 700, "normal", "wood"],
+            [600, 700, "i", "wood"],
+            [600, 700, "i", "wood"],
+            [600, 700, "i", "wood"],
+            [1000, 500, "I", "wood"],
+            [1300, 500, "I", "wood"],
+            [875, 300, "normalLong", "wood"],
+        ],
+        "players": [
+            4,
+            [0] 
+        ],
+        "pigs": [
+            [620, 0],
+            [1160, 600],
+            [1000, 100],
+        ],
+        "objectives": [
+            // Birds left
+            1,
+            // Star
+            [900, 400]
+        ]
+    },
+    // 12
+    {
+        "objects": [
+            [1450, 780, "little", "metal"],
+            [1180, 640, "normal", "metal"],
+            [1450, 520, "little", "metal"],
+            [1180, 480, "normal", "metal"],
+            [1450, 360, "little", "metal"],
+            [1180, 320, "normal", "metal"],
+            [1450, 200, "little", "metal"],
+            [1180, 160, "normal", "metal"],
+            [680, 600, "i", "wood"],
+        ],
+        "players": [
+            5
+        ],
+        "pigs": [
+            [1360, 600],
+            [1360, 300],
+            [1360, 450],
+            [1360, 800],
+            [800, 800],
+            [50, 800],
+        ],
+        "objectives": [
+            // Birds left
+            1,
+            // Star
+            [900, 400]
+        ]
+    }    
 ]

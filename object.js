@@ -121,6 +121,8 @@ function objectCollision() {
             }
             else {
                 demage(objekt, "ver")
+                var angle = drawAngle(objekt.x, hrac.x, objekt.y, hrac.y)
+                hrac.y = objekt.y + Math.sin(angle) * hrac.r
             }
             if (objekt.hp > 0) {
                 if (hrac.xs >= 0) {
@@ -139,8 +141,12 @@ function objectCollision() {
         }
         else if (vzdalenost(objekt.x + objekt.values.w, hrac.x, objekt.y, hrac.y) <= hrac.r) {
             if (hrac.x >= objekt.x + objekt.w + objekt.r) demage(objekt, "hor")
-            else demage(objekt, "ver")
-            if (objekt.hp > 0) {
+            else {
+                demage(objekt, "ver")
+                var angle = drawAngle(objekt.x + objekt.values.w, hrac.x, objekt.y, hrac.y)
+                hrac.y = objekt.y + Math.sin(angle) * hrac.r
+            }
+                if (objekt.hp > 0) {
                 if (hrac.xs <= 0) {
                     hrac.ys *= -0.5
                     hrac.xs *= -0.85
@@ -153,13 +159,14 @@ function objectCollision() {
             console.log("f")
         }
         else if (vzdalenost(objekt.x, hrac.x, objekt.y + objekt.values.h, hrac.y) <= hrac.r) {
+            var angle = drawAngle(objekt.x, hrac.x, objekt.y + objekt.values.h, hrac.y)
             if (hrac.y >= objekt.y && hrac.ys < 0) demage(objekt, "ver")
             else demage(objekt, "hor")
             if (objekt.hp > 0) {
                 if (hrac.xs >= 0) {
-                    hrac.x = objekt.x - hrac.r - 1
-                    hrac.xs *= -1
-                    hrac.ys *= -1
+                    hrac.y = objekt.y + objekt.values.h + Math.sin(angle) * hrac.r
+                    hrac.xs *= -0.85
+                    hrac.ys = Math.abs(hrac.ys*0.85)
                 }
             }
             else objectDestroyCons(objekt)
@@ -207,7 +214,7 @@ function objectEachOneBlock(i) {
 function demage(object, type) {
     switch (type) {
         case "hor": {
-            if (Math.abs(playerShots[0].xs) >= 5) object.hp -= Math.abs(playerShots[0].xs)
+            if (Math.abs(playerShots[0].xs) >= 4) object.hp -= Math.abs(playerShots[0].xs)
             break
         }
         case "ver": {

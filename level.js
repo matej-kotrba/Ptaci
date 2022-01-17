@@ -8,27 +8,6 @@ var levelImages = {
 
 levelImages.set()
 
-function setGame(level) {
-    // LEVEL START 
-    playerShots = []
-    objects = []
-    destroyAnimation = []
-    pigs = []
-    pigsKillAnimation = []
-    playerEffects.array = []
-    playerEffects.boomerArray = []
-    levelObjectives.star = undefined
-    playerValues.draw = false
-    playerValues.shoot = false
-    playerValues.starCollected = false
-    spawnPlayers(level)
-    spawnObjects(level)
-    spawnPigs(level)
-    spawnStar(level)
-    console.log(level)
-    game.level = level - 1
-}
-
 function drawPlayerStart() {
     c.fillStyle = "brown"
     c.fillRect(250, canvas.height - 300, 40, 300)

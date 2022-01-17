@@ -13,7 +13,7 @@ var playerValues = {
 }
 
 var levelsInfo = {
-    levelsCompleted: 10,
+    levelsCompleted: 11,
     stars: 0
 }
 
@@ -185,8 +185,8 @@ function main() {
                 // shoot
 
                 if (playerValues.shoot) {
-                    playerShots[0].xs *= 0.995 ** (1/dt)
-                    playerShots[0].ys *= 0.995 ** (1/dt)
+                    playerShots[0].xs *= 0.995 ** (dt)
+                    playerShots[0].ys *= 0.995 ** (dt)
                     playerShots[0].x += playerShots[0].xs * dt
                     playerShots[0].ys += playerShots[0].g * dt
                     playerShots[0].y += playerShots[0].ys * dt

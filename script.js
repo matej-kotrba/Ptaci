@@ -129,36 +129,6 @@ addEventListener("keydown", (e) => {
     }
 })
 
-// LEVEL SETUP
-
-function spawnObjects(index) {
-    for (var i in levely[index - 1]["objects"]) {
-        objects.push(new Object(levely[+index - 1]["objects"][i][0], levely[+index - 1]["objects"][i][1],
-            levely[+index - 1]["objects"][i][2], levely[+index - 1]["objects"][i][3]))
-    }
-}
-
-function spawnPlayers(index) {
-    for (var i = 0; i < levely[index - 1]["players"][0]; i++) {
-        playerShots.push(new Player())
-    }
-    if (levely[index - 1]["players"][1] != undefined) {
-        for (var i of levely[index - 1]["players"][1]) {
-            playerShots[i] = new Boomer()
-        }
-    }
-}
-
-function spawnPigs(index) {
-    for (var i in levely[index - 1]["pigs"]) {
-        pigs.push(new Pig(levely[+index - 1]["pigs"][i][0], levely[+index - 1]["pigs"][i][1]))
-    }
-}
-
-function spawnStar(index) {
-    levelObjectives.star = new Star(levely[+index - 1]["objectives"][1][0], levely[+index - 1]["objectives"][1][1])
-}
-
 // STAR
 
 function showStarCount() {

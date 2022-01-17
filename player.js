@@ -57,6 +57,7 @@ class Player {
 class Boomer extends Player {
     constructor() {
         super("boomer")
+        this.g = 0.8
         this.onclick = () => {
             playerEffects.boomerArray.push(new BoomerExplode(this.x, this.y))
             this.onclick = () => { }
