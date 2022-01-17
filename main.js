@@ -13,7 +13,7 @@ var playerValues = {
 }
 
 var levelsInfo = {
-    levelsCompleted: 11,
+    levelsCompleted: 0,
     stars: 0
 }
 
