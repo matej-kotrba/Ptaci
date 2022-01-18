@@ -57,7 +57,7 @@ class Star {
         if (playerShots[0].x + playerShots[0].r >= this.x &&
             playerShots[0].x - playerShots[0].r <= this.x + this.d &&
             playerShots[0].y + playerShots[0].r >= this.y &&
-            playerShots[0].y - playerShots[0].r <= this.y + this.d) {
+            playerShots[0].y - playerShots[0].r <= this.y + this.d && playerValues.shoot) {
             playerValues.starCollected = true
             this.destroy = true
         }

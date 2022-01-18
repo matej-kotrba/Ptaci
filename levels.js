@@ -17,7 +17,7 @@ var levely = [
             // Birds left
             3,
             // Star
-            [200, 200]
+            [200, 100]
         ]
     },
     // 2
