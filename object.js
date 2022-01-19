@@ -21,7 +21,7 @@ class Object {
     }
     gravity() {
         var lowestPoint = canvas.height - 5
-        var n = 1/dt
+        var n = 1 / dt
         for (var i in objects) {
             if (i != objects.indexOf(this) && playerShots[0].x >= objects[i].x && playerShots[0].x <= objects[i].x + objects[i].values.w &&
                 playerShots[0].y <= objects[i].y /*+ objects[i].values.h + playerShots[0].r*/) lowestPoint = playerShots[0].y - playerShots[0].r - 5
@@ -29,7 +29,7 @@ class Object {
         if (!this.onLand && !(playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
             playerShots[0].y >= this.y + this.values.h && playerShots[0].y <= this.y + this.values.h + playerShots[0].r &&
             playerShots[0].y + playerShots[0].r >= lowestPoint)) {
-            this.v += this.g*(1/(n*(n+1)/2))
+            this.v += this.g * (1 / (n * (n + 1) / 2))
             this.y += this.v
         }
         else if (playerShots[0].x >= this.x && playerShots[0].x <= this.x + this.values.w &&
@@ -121,8 +121,10 @@ function objectCollision() {
             }
             else {
                 demage(objekt, "ver")
-                var angle = drawAngle(objekt.x, hrac.x, objekt.y, hrac.y)
-                hrac.y = objekt.y + Math.sin(angle) * hrac.r
+                if (objekt.hp > 0) {
+                    var angle = drawAngle(objekt.x, hrac.x, objekt.y, hrac.y)
+                    hrac.y = objekt.y + Math.sin(angle) * hrac.r
+                }
             }
             if (objekt.hp > 0) {
                 if (hrac.xs >= 0) {
@@ -143,10 +145,12 @@ function objectCollision() {
             if (hrac.x >= objekt.x + objekt.w + objekt.r) demage(objekt, "hor")
             else {
                 demage(objekt, "ver")
-                var angle = drawAngle(objekt.x + objekt.values.w, hrac.x, objekt.y, hrac.y)
-                hrac.y = objekt.y + Math.sin(angle) * hrac.r
-            }
                 if (objekt.hp > 0) {
+                    var angle = drawAngle(objekt.x + objekt.values.w, hrac.x, objekt.y, hrac.y)
+                    hrac.y = objekt.y + Math.sin(angle) * hrac.r
+                }
+            }
+            if (objekt.hp > 0) {
                 if (hrac.xs <= 0) {
                     hrac.ys *= -0.5
                     hrac.xs *= -0.85
@@ -166,7 +170,7 @@ function objectCollision() {
                 if (hrac.xs >= 0) {
                     hrac.y = objekt.y + objekt.values.h + Math.sin(angle) * hrac.r
                     hrac.xs *= -0.85
-                    hrac.ys = Math.abs(hrac.ys*0.85)
+                    hrac.ys = Math.abs(hrac.ys * 0.85)
                 }
             }
             else objectDestroyCons(objekt)
