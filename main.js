@@ -38,6 +38,11 @@ var skins = {
             owned: false,
             equipped: false,
             image: playerImages.normalGreen
+        },
+        chicaron: {
+            owned: false,
+            equipped: false,
+            image: playerImages.normalChicaron
         }
     },
     playerEffects: {

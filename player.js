@@ -3,6 +3,7 @@ var playerImages = {
     normal: new Image(),
     normalRed: new Image(),
     normalGreen: new Image(),
+    normalChicaron: new Image(),
     circleNormal: new Image(),
     circleRed: new Image(),
     circleYellow: new Image(),
@@ -15,6 +16,7 @@ var playerImages = {
         playerImages.circleRed.src = "./img/circleRed.png"
         playerImages.circleYellow.src = "./img/circleYellow.png"
         playerImages.boomerNormal.src = "./img/boomerNormal.png"
+        playerImages.normalChicaron.src = "./img/chicaron.png"
     }
 }
 

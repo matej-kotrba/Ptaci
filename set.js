@@ -82,6 +82,7 @@ function setShop() {
     game.display = "shop"
     buttons.push(new Button("buy", { image: playerImages.normalRed, text: 5, title: "Red Bird", skin: "red", for: "player" }, "transaction", canvas.width / 2, 250, 500, 100))
     buttons.push(new Button("buy", { image: playerImages.normalGreen, text: 10, title: "Green Bird", skin: "green", for: "player" }, "transaction", canvas.width / 2, 250, 500, 100))
+    buttons.push(new Button("buy", { image: playerImages.normalChicaron, text: 15, title: "Chicharrón", skin: "chicaron", for: "player" }, "transaction", canvas.width / 2, 250, 500, 100))
     buttons.push(new Button("buy", { image: playerImages.circleRed, text: 5, title: "Red Circle", skin: "red", for: "playerEffects" }, "transaction", canvas.width / 2, 250, 500, 100))
     buttons.push(new Button("buy", { image: playerImages.circleYellow, text: 10, title: "Yellow Circle", skin: "yellow", for: "playerEffects" }, "transaction", canvas.width / 2, 250, 500, 100))
     buttons.push(new Button("cross", 0, "menu", 100, 50, 50, 50))

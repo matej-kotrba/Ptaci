@@ -194,8 +194,8 @@ class Button {
                     this.variables.textcolor = "rgb(222, 236, 18)"
                     this.w = 300
                     this.h = 200
-                    this.x = buttons.length * this.w + this.w / 2 + buttons.length * 50 + 70
-                    this.y = this.h * Math.floor((buttons.length) / 4) + 150
+                    this.x = (buttons.length % 4) * (this.w + 50) + this.w / 1.25
+                    this.y = (this.h + 50) * Math.floor((buttons.length) / 4) + 150
                     this.hover = () => {
                         c.fillStyle = this.variables.bgcolor
                         c.fillRect(this.x - this.w / 2, this.y, this.w, this.h)
@@ -233,10 +233,10 @@ class Button {
                 case "skinSelect": {
                     this.variables.bgcolor = "rgb(22, 22, 22)"
                     this.variables.textcolor = "rgb(222, 236, 18)"
-                    this.w = 300
+                    this.w = 250
                     this.h = 200
-                    this.x = (buttons.length % 3) * (this.w + 50) + this.w
-                    this.y = this.h * Math.floor((buttons.length) / 3) + 50 * Math.floor((buttons.length) / 3) + 50
+                    this.x = (buttons.length % 4) * (this.w + 50) + this.w
+                    this.y = this.h * Math.floor((buttons.length) / 4) + 50 * Math.floor((buttons.length) / 4) + 50
                     this.hover = () => {
                         c.fillStyle = this.variables.bgcolor
                         c.fillRect(this.x - this.w / 2, this.y, this.w, this.h)
