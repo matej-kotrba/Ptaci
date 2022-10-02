@@ -1,36 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body {
-                background-color: rgb(31, 30, 30);
-            }
-            canvas {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%,-50%);
-                width: 75%;
-                background-image: linear-gradient(to top right, rgb(81, 178, 216), rgb(36, 36, 250));
-                color: rgb(255, 251, 0);
-            }
-        </style>
-    </head>
-    <body>
-        <canvas width="1500" height="800" id="canvas" oncontextmenu="return false"></canvas>
-        <script src="script.js"></script>
-        <script src="level.js"></script>
-        <script src="enemy.js"></script>
-        <script src="object.js"></script>
-        <script src="player.js"></script>
-        <script src="menu.js"></script>
-        <script src="levels.js"></script>
-        <script src="shop.js"></script>
-        <script src="set.js"></script>
-        <script src="main.js"></script>
-        
-    </body>
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        background-color: rgb(31, 30, 30);
+      }
+      canvas {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 75%;
+        background-image: linear-gradient(
+          to top right,
+          rgb(81, 178, 216),
+          rgb(36, 36, 250)
+        );
+        color: rgb(255, 251, 0);
+      }
+      a {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.7rem;
+        text-decoration: none;
+      }
+      a:hover {
+        color: rgb(179, 179, 179);
+      }
+    </style>
+  </head>
+  <body>
+    <a href="https://matejkotrba.vercel.app">Visit my portfolio !</a>
+    <canvas
+      width="1500"
+      height="800"
+      id="canvas"
+      oncontextmenu="return false"
+    ></canvas>
+    <script src="script.js"></script>
+    <script src="level.js"></script>
+    <script src="enemy.js"></script>
+    <script src="object.js"></script>
+    <script src="player.js"></script>
+    <script src="menu.js"></script>
+    <script src="levels.js"></script>
+    <script src="shop.js"></script>
+    <script src="set.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
